@@ -1,0 +1,63 @@
+/* DocChangeModal 样式 */
+
+.content-summary {
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 12px;
+  margin-top: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #595959;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.content-summary:empty::before {
+  content: '(无内容)';
+  color: #bfbfbf;
+  font-style: italic;
+}
+
+/* 时间线样式优化 */
+.ant-timeline-item-left .ant-timeline-item-content {
+  margin-left: 24px;
+}
+
+/* Diff 查看器样式 */
+.diff-viewer {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+}
+
+/* 统计卡片 */
+.ant-statistic-title {
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.ant-statistic-content {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* 变更类型标签 */
+.change-tag-add {
+  background: #f6ffed;
+  border-color: #b7eb8f;
+  color: #389e0d;
+}
+
+.change-tag-modify {
+  background: #e6f7ff;
+  border-color: #91d5ff;
+  color: #096dd9;
+}
+
+.change-tag-delete {
+  background: #fff1f0;
+  border-color: #ffa39e;
+  color: #cf1322;
+}

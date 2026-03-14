@@ -1,0 +1,29 @@
+target/
+**/target/
+.idea/
+*.iml
+
+# frontend
+**/node_modules/
+**/build/
+
+# logs
+logs/
+*.log
+*.log.*
+
+# env files
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+
+# runtime data
+data/
+
+# misc
+coverage/
+dist/

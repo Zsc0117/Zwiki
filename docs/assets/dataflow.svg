@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13">
+  <defs>
+    <linearGradient id="hBlue" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#e3f2fd"/><stop offset="100%" stop-color="#bbdefb"/></linearGradient>
+    <linearGradient id="hGreen" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#e8f5e9"/><stop offset="100%" stop-color="#c8e6c9"/></linearGradient>
+    <linearGradient id="hAmber" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fff8e1"/><stop offset="100%" stop-color="#ffecb3"/></linearGradient>
+    <linearGradient id="hPurple" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f3e5f5"/><stop offset="100%" stop-color="#e1bee7"/></linearGradient>
+    <filter id="ds"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.08"/></filter>
+    <marker id="ar" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse"><polygon points="0 0,10 3.5,0 7" fill="#546e7a"/></marker>
+    <marker id="arG" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse"><polygon points="0 0,10 3.5,0 7" fill="#2e7d32"/></marker>
+  </defs>
+
+  <text x="480" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#333">Wiki Generation Data Flow</text>
+  <text x="480" y="50" text-anchor="middle" font-size="12" fill="#888">From repository URL to structured multi-chapter Wiki documentation</text>
+
+  <!-- Step 1: User Input -->
+  <rect x="30" y="80" width="180" height="70" rx="10" fill="url(#hBlue)" stroke="#64b5f6" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="120" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">1. User Input</text>
+  <text x="120" y="122" text-anchor="middle" font-size="11" fill="#555">GitHub / Gitee URL</text>
+  <text x="120" y="138" text-anchor="middle" font-size="11" fill="#555">+ prompt version</text>
+
+  <line x1="210" y1="115" x2="260" y2="115" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- Step 2: Clone & Analyze -->
+  <rect x="260" y="80" width="180" height="70" rx="10" fill="url(#hGreen)" stroke="#66bb6a" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="350" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">2. Clone &amp; Read</text>
+  <text x="350" y="122" text-anchor="middle" font-size="11" fill="#555">JGit clone repo</text>
+  <text x="350" y="138" text-anchor="middle" font-size="11" fill="#555">CodebasePreReader</text>
+
+  <line x1="440" y1="115" x2="490" y2="115" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- Step 3: Catalogue Generation -->
+  <rect x="490" y="80" width="200" height="70" rx="10" fill="url(#hAmber)" stroke="#ffb74d" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="590" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">3. AI Catalogue</text>
+  <text x="590" y="122" text-anchor="middle" font-size="11" fill="#555">LLM analyzes source</text>
+  <text x="590" y="138" text-anchor="middle" font-size="11" fill="#555">Generates chapter outline</text>
+
+  <line x1="690" y1="115" x2="740" y2="115" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- Step 4: Parallel Doc Gen -->
+  <rect x="740" y="72" width="200" height="86" rx="10" fill="url(#hPurple)" stroke="#ba68c8" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="840" y="97" text-anchor="middle" font-size="13" font-weight="bold" fill="#6a1b9a">4. Parallel Doc Gen</text>
+  <text x="840" y="114" text-anchor="middle" font-size="11" fill="#555">Each chapter in parallel</text>
+  <text x="840" y="130" text-anchor="middle" font-size="11" fill="#555">Full source code context</text>
+  <text x="840" y="146" text-anchor="middle" font-size="11" fill="#555">Cross-chapter awareness</text>
+
+  <!-- Vertical arrow down from Step 4 -->
+  <line x1="840" y1="158" x2="840" y2="200" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- Step 5: Progress & Notification -->
+  <rect x="700" y="200" width="240" height="60" rx="10" fill="url(#hBlue)" stroke="#64b5f6" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="820" y="225" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">5. Real-time Progress</text>
+  <text x="820" y="245" text-anchor="middle" font-size="11" fill="#555">WebSocket + Redis queue push</text>
+
+  <line x1="700" y1="230" x2="640" y2="230" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- Step 6: Store -->
+  <rect x="440" y="200" width="200" height="60" rx="10" fill="url(#hGreen)" stroke="#66bb6a" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="540" y="225" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">6. Persist to DB</text>
+  <text x="540" y="245" text-anchor="middle" font-size="11" fill="#555">MySQL: tasks + catalogues + docs</text>
+
+  <line x1="440" y1="230" x2="380" y2="230" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- Step 7: Memory indexing -->
+  <rect x="180" y="200" width="200" height="60" rx="10" fill="url(#hPurple)" stroke="#ba68c8" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="280" y="225" text-anchor="middle" font-size="13" font-weight="bold" fill="#6a1b9a">7. Memory Index</text>
+  <text x="280" y="245" text-anchor="middle" font-size="11" fill="#555">Feign call to zwiki-memory</text>
+
+  <!-- ====== Second flow: AI Chat / Ask AI ====== -->
+  <text x="480" y="310" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">AI Chat / Ask AI Flow</text>
+
+  <!-- User asks -->
+  <rect x="30" y="340" width="160" height="60" rx="10" fill="url(#hBlue)" stroke="#64b5f6" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="110" y="365" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">User Question</text>
+  <text x="110" y="382" text-anchor="middle" font-size="11" fill="#555">SSE stream request</text>
+
+  <line x1="190" y1="370" x2="240" y2="370" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- RAG -->
+  <rect x="240" y="340" width="160" height="60" rx="10" fill="url(#hPurple)" stroke="#ba68c8" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="320" y="365" text-anchor="middle" font-size="13" font-weight="bold" fill="#6a1b9a">RAG Lookup</text>
+  <text x="320" y="382" text-anchor="middle" font-size="11" fill="#555">Mem0 vector search</text>
+
+  <line x1="400" y1="370" x2="450" y2="370" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- LLM Call -->
+  <rect x="450" y="335" width="180" height="70" rx="10" fill="url(#hAmber)" stroke="#ffb74d" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="540" y="360" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">LLM Inference</text>
+  <text x="540" y="377" text-anchor="middle" font-size="11" fill="#555">Load-balanced model</text>
+  <text x="540" y="393" text-anchor="middle" font-size="11" fill="#555">+ Tool Calling + MCP</text>
+
+  <line x1="630" y1="370" x2="680" y2="370" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- Streaming response -->
+  <rect x="680" y="340" width="160" height="60" rx="10" fill="url(#hGreen)" stroke="#66bb6a" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="760" y="365" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">SSE Stream</text>
+  <text x="760" y="382" text-anchor="middle" font-size="11" fill="#555">Chunked response</text>
+
+  <!-- ====== Third flow: Code Review ====== -->
+  <text x="480" y="450" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">GitHub Code Review Flow</text>
+
+  <rect x="30" y="470" width="160" height="55" rx="10" fill="url(#hBlue)" stroke="#64b5f6" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="110" y="493" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">PR Webhook</text>
+  <text x="110" y="510" text-anchor="middle" font-size="11" fill="#555">GitHub event</text>
+
+  <line x1="190" y1="497" x2="240" y2="497" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="240" y="470" width="160" height="55" rx="10" fill="url(#hGreen)" stroke="#66bb6a" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="320" y="493" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d32">zwiki-review</text>
+  <text x="320" y="510" text-anchor="middle" font-size="11" fill="#555">Parse diff + context</text>
+
+  <line x1="400" y1="497" x2="450" y2="497" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="450" y="470" width="160" height="55" rx="10" fill="url(#hAmber)" stroke="#ffb74d" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="530" y="493" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">AI Review</text>
+  <text x="530" y="510" text-anchor="middle" font-size="11" fill="#555">Score + comments</text>
+
+  <line x1="610" y1="497" x2="660" y2="497" stroke="#546e7a" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="660" y="470" width="180" height="55" rx="10" fill="url(#hPurple)" stroke="#ba68c8" stroke-width="1.2" filter="url(#ds)"/>
+  <text x="750" y="493" text-anchor="middle" font-size="13" font-weight="bold" fill="#6a1b9a">Write Back</text>
+  <text x="750" y="510" text-anchor="middle" font-size="11" fill="#555">GitHub API comments</text>
+</svg>

@@ -1,0 +1,132 @@
+server:
+  port: 8993
+
+spring:
+  application:
+    name: zwiki-memory
+  profiles:
+    active: dev
+  config:
+    import:
+      - optional:nacos:zwiki-memory-service-dev.yaml?refresh=true
+  cloud:
+    discovery:
+      enabled: ${NACOS_ENABLED:true}
+    service-registry:
+      auto-registration:
+        enabled: ${NACOS_ENABLED:true}
+    nacos:
+      config:
+        enabled: ${NACOS_ENABLED:true}
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+        username: ${NACOS_USERNAME:}
+        password: ${NACOS_PASSWORD:}
+      discovery:
+        enabled: ${NACOS_ENABLED:true}
+        register-enabled: ${NACOS_ENABLED:true}
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        username: ${NACOS_USERNAME:}
+        password: ${NACOS_PASSWORD:}
+
+  #---------------------------------本地Fallback配置(Nacos不可用时生效)----------------------------------#
+  datasource:
+    url: jdbc:mysql://localhost:3306/zwiki?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+
+  data:
+    redis:
+      host: ${ZWIKI_REDIS_HOST:127.0.0.1}
+      port: ${ZWIKI_REDIS_PORT:6379}
+      database: ${ZWIKI_REDIS_DATABASE:6}
+      password: ${ZWIKI_REDIS_PASSWORD:}
+      timeout: 10s
+      connect-timeout: 5s
+      lettuce:
+        pool:
+          max-active: 200
+          max-wait: 5s
+          max-idle: 50
+          min-idle: 10
+          time-between-eviction-runs: 30s
+        shutdown-timeout: 200ms
+
+  ai:
+    memory:
+      redis:
+        host: ${spring.data.redis.host}
+        port: ${spring.data.redis.port}
+        database: ${spring.data.redis.database}
+        password: ${spring.data.redis.password}
+        timeout: 5000
+    openai:
+      api-key: ${DASHSCOPE_API_KEY:}
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      chat:
+        options:
+          model: kimi-k2-thinking
+          stream-usage: true
+
+#---------------------------------Mem0配置(必须配置以启用MemZeroServiceClient)----------------------------------#
+mem0:
+  client:
+    base-url: https://api.mem0.ai/v1
+    api-key: ${MEM0_API_KEY:}
+    max-retry-attempts: 1
+
+  server:
+    version: v1.1
+    vector-store:
+      provider: pgvector
+      config:
+        host: localhost
+        port: 5432
+        dbname: postgres
+        user: postgres
+        password: ${POSTGRES_PASSWORD:}
+        collection-name: memories
+    graph-store:
+      provider: neo4j
+      config:
+        url: 7687
+        username: neo4j
+        password: ${NEO4J_PASSWORD:}
+    llm:
+      provider: openai
+      config:
+        api-key: ${DASHSCOPE_API_KEY:}
+        temperature: 0.2
+        model: kimi-k2-thinking
+        openai-base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    embedder:
+      provider: openai
+      config:
+        api-key: ${DASHSCOPE_API_KEY:}
+        model: text-embedding-v4
+        openai-base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+
+#---------------------------------项目配置----------------------------------#
+project:
+  memory:
+    redis:
+      topics:
+        mem-index: "memory-index-topic"
+        mem-retry: "memory-index-retry-topic"
+        mem-dlq: "memory-index-dlq"
+      consumer:
+        max-concurrency: 2
+        process-interval: 1000
+        max-retry: 3
+        retry-delay: 30000
+
+#---------------------------------日志配置----------------------------------#
+logging:
+  level:
+    com.zwiki.memory: INFO
+    org.springframework.ai: DEBUG

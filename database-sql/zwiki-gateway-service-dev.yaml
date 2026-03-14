@@ -1,0 +1,59 @@
+#---------------------------------Redis配置----------------------------------#
+spring:
+  data:
+    redis:
+      host: ${ZWIKI_REDIS_HOST:127.0.0.1}
+      port: ${ZWIKI_REDIS_PORT:6379}
+      database: ${ZWIKI_REDIS_DATABASE:6}
+      password: ${ZWIKI_REDIS_PASSWORD:}
+      timeout: 10s
+      connect-timeout: 5s
+      lettuce:
+        pool:
+          max-active: 200
+          max-wait: 5s
+          max-idle: 50
+          min-idle: 10
+          time-between-eviction-runs: 30s
+        shutdown-timeout: 200ms
+
+  codec:
+    max-in-memory-size: 512MB
+  cloud:
+    gateway:
+      httpclient:
+        response-timeout: 600s
+        max-initial-line-length: 65536
+      # 全局跨域配置
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+              - "http://127.0.0.1:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+#---------------------------------监控配置----------------------------------#
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway,routes,metrics
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+
+#---------------------------------日志配置----------------------------------#
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    reactor.netty: INFO

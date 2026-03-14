@@ -1,0 +1,180 @@
+#---------------------------------服务器配置----------------------------------#
+server:
+  servlet:
+    session:
+      timeout: 1d
+      cookie:
+        max-age: 86400
+        http-only: true
+        secure: false
+
+#---------------------------------数据库配置----------------------------------#
+spring:
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/zwiki?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  #---------------------------------Redis配置----------------------------------#
+  data:
+    redis:
+      host: ${ZWIKI_REDIS_HOST:127.0.0.1}
+      port: ${ZWIKI_REDIS_PORT:6379}
+      database: ${ZWIKI_REDIS_DATABASE:6}
+      password: ${ZWIKI_REDIS_PASSWORD:}
+      timeout: 10s
+      connect-timeout: 5s
+      lettuce:
+        pool:
+          max-active: 200
+          max-wait: 5s
+          max-idle: 50
+          min-idle: 10
+          time-between-eviction-runs: 30s
+        shutdown-timeout: 200ms
+
+  #---------------------------------Spring AI配置----------------------------------#
+  ai:
+    openai:
+      api-key: ${DASHSCOPE_API_KEY:}
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      chat:
+        options:
+          model:
+          stream-usage: true
+    memory:
+      redis:
+        host: ${spring.data.redis.host}
+        port: ${spring.data.redis.port}
+        database: ${spring.data.redis.database}
+        password: ${spring.data.redis.password}
+        timeout: 5000
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID:YOUR_GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET:YOUR_GITHUB_CLIENT_SECRET}
+            scope:
+              - read:user
+              - user:email
+              - repo
+          gitee:
+            client-id: ${GITEE_CLIENT_ID:YOUR_GITEE_CLIENT_ID}
+            client-secret: ${GITEE_CLIENT_SECRET:YOUR_GITEE_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/gitee"
+            scope:
+              - user_info
+              - emails
+              - projects
+        provider:
+          gitee:
+            authorization-uri: https://gitee.com/oauth/authorize
+            token-uri: https://gitee.com/oauth/token
+            user-info-uri: https://gitee.com/api/v5/user
+            user-name-attribute: id
+
+  #---------------------------------邮件通知配置----------------------------------#
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          starttls:
+            enable: false
+      transport:
+        protocol: smtp
+    default-encoding: UTF-8
+
+zwiki:
+  auth:
+    login-success-redirect: ${ZWIKI_AUTH_LOGIN_SUCCESS_REDIRECT:http://localhost:3000/}
+    token-crypto-key: ${ZWIKI_AUTH_TOKEN_CRYPTO_KEY:}
+  rag:
+    enabled: ${ZWIKI_RAG_ENABLED:true}
+    isolation-mode: ${ZWIKI_RAG_ISOLATION_MODE:PROJECT}
+    top-k: ${ZWIKI_RAG_TOPK:6}
+    include-documents: ${ZWIKI_RAG_INCLUDE_DOCUMENTS:true}
+    include-code-files: ${ZWIKI_RAG_INCLUDE_CODE_FILES:true}
+    max-chars: ${ZWIKI_RAG_MAX_CHARS:12000}
+  mail:
+    enabled: ${MAIL_ENABLED:false}
+    brand-name: ${ZWIKI_MAIL_BRAND_NAME:ZwikiAI}
+    logo-url: ${ZWIKI_MAIL_LOGO_URL:}
+    primary-color: ${ZWIKI_MAIL_PRIMARY_COLOR:#1677ff}
+    home-url: ${ZWIKI_MAIL_HOME_URL:http://localhost:3000}
+    queue-timeout-minutes: ${ZWIKI_MAIL_QUEUE_TIMEOUT_MINUTES:15}
+    queue-reminder-cooldown-minutes: ${ZWIKI_MAIL_QUEUE_REMINDER_COOLDOWN_MINUTES:60}
+
+#---------------------------------项目配置----------------------------------#
+project:
+  repository:
+    base-path: ${PROJECT_REPO_PATH:./data/repositories}
+  wiki:
+    redis:
+      topics:
+        doc-generation: "doc-generation-topic"
+        doc-retry: "doc-generation-retry-topic"
+        doc-dlq: "doc-generation-dlq"
+        mem-index: "memory-index-topic"
+        mem-retry: "memory-index-retry-topic"
+        mem-dlq: "memory-index-dlq"
+      consumer:
+        max-concurrency: 2
+        process-interval: 2000
+        max-retry: 3
+        retry-delay: 30000
+    monitor:
+      tool-calling: ${WIKI_MONITOR_TOOL_CALLING:true}
+      tool-details: ${WIKI_MONITOR_TOOL_DETAILS:true}
+
+#---------------------------------Memory服务配置----------------------------------#
+memory:
+  service:
+    url: ${MEMORY_SERVICE_URL:http://localhost:8993}
+
+#---------------------------------Feign配置----------------------------------#
+feign:
+  client:
+    config:
+      memory-service:
+        connectTimeout: 5000
+        readTimeout: 10000
+        loggerLevel: basic
+  hystrix:
+    enabled: false
+  circuitbreaker:
+    enabled: false
+
+#---------------------------------日志配置----------------------------------#
+logging:
+  level:
+    root: INFO
+    com.zwiki.monitor: INFO
+    com.zwiki.llm.tool: DEBUG
+    com.zwiki.llm.service: INFO
+    org.springframework.boot: ERROR
+  file:
+    name: ./logs/zwiki-wiki.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

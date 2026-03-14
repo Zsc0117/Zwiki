@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13">
+  <defs>
+    <filter id="sh"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.08"/></filter>
+    <marker id="a" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse"><polygon points="0 0,10 3.5,0 7" fill="#78909c"/></marker>
+  </defs>
+
+  <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#333">Maven Module Dependencies</text>
+  <text x="400" y="50" text-anchor="middle" font-size="12" fill="#888">Arrows indicate "depends on"</text>
+
+  <!-- Legend -->
+  <rect x="580" y="60" width="200" height="85" rx="8" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="590" y="78" font-size="11" font-weight="bold" fill="#555">Legend</text>
+  <rect x="590" y="86" width="14" height="14" rx="3" fill="#bbdefb" stroke="#1976d2" stroke-width="0.8"/>
+  <text x="610" y="97" font-size="10" fill="#555">Deployable service</text>
+  <rect x="590" y="106" width="14" height="14" rx="3" fill="#e1bee7" stroke="#7b1fa2" stroke-width="0.8"/>
+  <text x="610" y="117" font-size="10" fill="#555">Shared library module</text>
+  <rect x="590" y="126" width="14" height="14" rx="3" fill="#c8e6c9" stroke="#388e3c" stroke-width="0.8"/>
+  <text x="610" y="137" font-size="10" fill="#555">Frontend (non-Maven)</text>
+
+  <!-- ===== Deployable Services (top row) ===== -->
+  <!-- zwiki-gateway -->
+  <rect x="30" y="80" width="150" height="50" rx="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1.4" filter="url(#sh)"/>
+  <text x="105" y="102" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d47a1">zwiki-gateway</text>
+  <text x="105" y="118" text-anchor="middle" font-size="10" fill="#555">:8992</text>
+
+  <!-- zwiki-wiki -->
+  <rect x="30" y="170" width="150" height="50" rx="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1.4" filter="url(#sh)"/>
+  <text x="105" y="192" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d47a1">zwiki-wiki</text>
+  <text x="105" y="208" text-anchor="middle" font-size="10" fill="#555">:8991 (core)</text>
+
+  <!-- zwiki-review -->
+  <rect x="30" y="260" width="150" height="50" rx="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1.4" filter="url(#sh)"/>
+  <text x="105" y="282" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d47a1">zwiki-review</text>
+  <text x="105" y="298" text-anchor="middle" font-size="10" fill="#555">:8990</text>
+
+  <!-- zwiki-memory -->
+  <rect x="30" y="350" width="150" height="50" rx="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1.4" filter="url(#sh)"/>
+  <text x="105" y="372" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d47a1">zwiki-memory</text>
+  <text x="105" y="388" text-anchor="middle" font-size="10" fill="#555">:8993</text>
+
+  <!-- zwiki-mcp-server -->
+  <rect x="30" y="440" width="150" height="50" rx="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1.4" filter="url(#sh)"/>
+  <text x="105" y="462" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d47a1">zwiki-mcp-server</text>
+  <text x="105" y="478" text-anchor="middle" font-size="10" fill="#555">:9090</text>
+
+  <!-- ===== Shared Modules (right side) ===== -->
+  <!-- zwiki-llm -->
+  <rect x="320" y="130" width="140" height="44" rx="8" fill="#e1bee7" stroke="#7b1fa2" stroke-width="1.2" filter="url(#sh)"/>
+  <text x="390" y="157" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a148c">zwiki-llm</text>
+
+  <!-- zwiki-mcp -->
+  <rect x="320" y="200" width="140" height="44" rx="8" fill="#e1bee7" stroke="#7b1fa2" stroke-width="1.2" filter="url(#sh)"/>
+  <text x="390" y="227" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a148c">zwiki-mcp</text>
+
+  <!-- zwiki-remote -->
+  <rect x="320" y="270" width="140" height="44" rx="8" fill="#e1bee7" stroke="#7b1fa2" stroke-width="1.2" filter="url(#sh)"/>
+  <text x="390" y="297" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a148c">zwiki-remote</text>
+
+  <!-- zwiki-common -->
+  <rect x="560" y="230" width="140" height="44" rx="8" fill="#e1bee7" stroke="#7b1fa2" stroke-width="1.2" filter="url(#sh)"/>
+  <text x="630" y="257" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a148c">zwiki-common</text>
+
+  <!-- zwiki-domain -->
+  <rect x="560" y="310" width="140" height="44" rx="8" fill="#e1bee7" stroke="#7b1fa2" stroke-width="1.2" filter="url(#sh)"/>
+  <text x="630" y="337" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a148c">zwiki-domain</text>
+
+  <!-- zwiki-frontend -->
+  <rect x="560" y="130" width="140" height="44" rx="8" fill="#c8e6c9" stroke="#388e3c" stroke-width="1.2" filter="url(#sh)"/>
+  <text x="630" y="152" text-anchor="middle" font-size="13" font-weight="bold" fill="#1b5e20">zwiki-frontend</text>
+  <text x="630" y="166" text-anchor="middle" font-size="10" fill="#555">React :3000</text>
+
+  <!-- ===== Dependency Arrows ===== -->
+  <!-- zwiki-wiki -> zwiki-llm -->
+  <path d="M180,190 Q250,155 320,152" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+  <!-- zwiki-wiki -> zwiki-mcp -->
+  <path d="M180,195 Q250,215 320,222" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+  <!-- zwiki-wiki -> zwiki-remote -->
+  <path d="M180,200 Q240,270 320,292" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <!-- zwiki-review -> zwiki-llm -->
+  <path d="M180,280 Q250,200 320,152" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+  <!-- zwiki-review -> zwiki-remote -->
+  <path d="M180,290 Q250,292 320,292" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <!-- zwiki-llm -> zwiki-common -->
+  <path d="M460,152 Q510,200 560,242" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <!-- zwiki-mcp -> zwiki-common -->
+  <path d="M460,222 Q510,235 560,248" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <!-- zwiki-remote -> zwiki-domain -->
+  <path d="M460,292 Q510,315 560,330" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <!-- zwiki-common -> zwiki-domain -->
+  <path d="M630,274 L630,310" fill="none" stroke="#78909c" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <!-- zwiki-wiki -> zwiki-common (direct) -->
+  <path d="M180,195 Q400,100 560,240" fill="none" stroke="#78909c" stroke-width="0.8" stroke-dasharray="4,3" marker-end="url(#a)"/>
+
+  <!-- zwiki-review -> zwiki-common -->
+  <path d="M180,285 Q420,350 560,260" fill="none" stroke="#78909c" stroke-width="0.8" stroke-dasharray="4,3" marker-end="url(#a)"/>
+
+  <!-- Notes -->
+  <text x="400" y="415" text-anchor="middle" font-size="11" fill="#666">zwiki-memory and zwiki-mcp-server are standalone</text>
+  <text x="400" y="432" text-anchor="middle" font-size="11" fill="#666">services with their own dependencies (not shared modules)</text>
+
+  <text x="400" y="460" text-anchor="middle" font-size="11" fill="#888">zwiki-wiki depends on: zwiki-llm, zwiki-mcp, zwiki-remote, zwiki-common, zwiki-domain</text>
+  <text x="400" y="477" text-anchor="middle" font-size="11" fill="#888">zwiki-review depends on: zwiki-llm, zwiki-remote, zwiki-common, zwiki-domain</text>
+  <text x="400" y="494" text-anchor="middle" font-size="11" fill="#888">zwiki-gateway depends on: Spring Cloud Gateway (no internal modules)</text>
+</svg>

@@ -1,0 +1,257 @@
+server:
+  port: 8991
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      force-response: true
+    session:
+      timeout: 1d
+      cookie:
+        max-age: 86400
+        http-only: true
+        secure: false
+  forward-headers-strategy: framework
+
+spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  application:
+    name: zwiki-wiki
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
+  profiles:
+    active: dev
+  config:
+    import:
+      - "optional:nacos:zwiki-wiki-service-dev.yaml?refresh=true"
+  session:
+    store-type: redis
+    timeout: 1d
+    redis:
+      namespace: zwiki:session
+  cloud:
+    discovery:
+      enabled: ${NACOS_ENABLED:true}
+    service-registry:
+      auto-registration:
+        enabled: ${NACOS_ENABLED:true}
+    nacos:
+      config:
+        enabled: ${NACOS_ENABLED:true}
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+        username: ${NACOS_USERNAME:}
+        password: ${NACOS_PASSWORD:}
+      discovery:
+        enabled: ${NACOS_ENABLED:false}
+        register-enabled: ${NACOS_ENABLED:false}
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        username: ${NACOS_USERNAME:}
+        password: ${NACOS_PASSWORD:}
+
+  #---------------------------------本地Fallback配置(Nacos不可用时生效)----------------------------------#
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/zwiki?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+
+  data:
+    redis:
+      host: ${ZWIKI_REDIS_HOST:127.0.0.1}
+      port: ${ZWIKI_REDIS_PORT:6379}
+      database: ${ZWIKI_REDIS_DATABASE:6}
+      password: ${ZWIKI_REDIS_PASSWORD:}
+      timeout: 10s
+      connect-timeout: 5s
+      lettuce:
+        pool:
+          max-active: 200
+          max-wait: 5s
+          max-idle: 50
+          min-idle: 10
+          time-between-eviction-runs: 30s
+        shutdown-timeout: 200ms
+
+  ai:
+    memory:
+      redis:
+        host: ${spring.data.redis.host}
+        port: ${spring.data.redis.port}
+        database: ${spring.data.redis.database}
+        password: ${spring.data.redis.password}
+        timeout: 5000
+
+    openai:
+      api-key: ${DASHSCOPE_API_KEY:}
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      chat:
+        options:
+          model:
+          stream-usage: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          gitee:
+            client-id: ${GITEE_CLIENT_ID:}
+            client-secret: ${GITEE_CLIENT_SECRET:}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/gitee"
+            scope:
+              - user_info
+              - emails
+              - projects
+        provider:
+          gitee:
+            authorization-uri: https://gitee.com/oauth/authorize
+            token-uri: https://gitee.com/oauth/token
+            user-info-uri: https://gitee.com/api/v5/user
+            user-name-attribute: id
+
+#---------------------------------项目配置----------------------------------#
+project:
+  repository:
+    base-path: ${PROJECT_REPO_PATH:./data/repositories}
+  ai:
+    http:
+      connect-timeout: ${AI_HTTP_CONNECT_TIMEOUT:10s}
+      read-timeout: ${AI_HTTP_READ_TIMEOUT:20m}
+  wiki:
+    redis:
+      topics:
+        doc-generation: "doc-generation-topic"
+        doc-retry: "doc-generation-retry-topic"
+        doc-dlq: "doc-generation-dlq"
+        mem-index: "memory-index-topic"
+        mem-retry: "memory-index-retry-topic"
+        mem-dlq: "memory-index-dlq"
+      consumer:
+        max-concurrency: ${WIKI_REDIS_CONSUMER_MAX_CONCURRENCY:5}
+        process-interval: ${WIKI_REDIS_CONSUMER_PROCESS_INTERVAL:1000}
+        max-retry: ${WIKI_REDIS_CONSUMER_MAX_RETRY:3}
+        acquire-timeout: ${WIKI_REDIS_CONSUMER_ACQUIRE_TIMEOUT:60000}
+
+#---------------------------------Memory服务配置----------------------------------#
+memory:
+  service:
+    url: ${MEMORY_SERVICE_URL:http://localhost:8993}
+
+#---------------------------------Feign配置----------------------------------#
+feign:
+  client:
+    config:
+      memory-service:
+        connectTimeout: 5000
+        readTimeout: 10000
+        loggerLevel: basic
+  hystrix:
+    enabled: false
+  circuitbreaker:
+    enabled: false
+
+git:
+  proxy:
+    enabled: ${GIT_PROXY_ENABLED:true}
+    host: ${GIT_PROXY_HOST:127.0.0.1}
+    port: ${GIT_PROXY_PORT:7897}
+
+  clone:
+    timeout-seconds: ${GIT_CLONE_TIMEOUT_SECONDS:120}
+    retry:
+      max-attempts: ${GIT_CLONE_RETRY_MAX_ATTEMPTS:3}
+      backoff-millis: ${GIT_CLONE_RETRY_BACKOFF_MILLIS:2000}
+
+#---------------------------------ZWiki工作空间配置----------------------------------#
+# 论文生成临时文件存储路径
+# 开发环境(Windows): 设置环境变量 ZWIKI_WORKSPACE_BASE_PATH=D:\path\to\zwiki-workspace
+# 生产环境(Linux): 默认使用 /tmp/zwiki-workspace
+zwiki:
+  workspace:
+    base-path: ${ZWIKI_WORKSPACE_BASE_PATH:/tmp/zwiki-workspace}
+
+  auth:
+    login-success-redirect: ${ZWIKI_AUTH_LOGIN_SUCCESS_REDIRECT:http://localhost:3000/}
+    token-crypto-key: ${ZWIKI_AUTH_TOKEN_CRYPTO_KEY:}
+
+  llm:
+    balancer:
+      enabled: true
+      strategy: round_robin
+      max-attempts-per-request: 3
+      unhealthy-cooldown-seconds: 300
+      allow-fallback-on-explicit-model: true
+
+  rag:
+    enabled: ${ZWIKI_RAG_ENABLED:true}
+    isolation-mode: ${ZWIKI_RAG_ISOLATION_MODE:PROJECT}
+    top-k: ${ZWIKI_RAG_TOPK:6}
+    include-documents: ${ZWIKI_RAG_INCLUDE_DOCUMENTS:true}
+    include-code-files: ${ZWIKI_RAG_INCLUDE_CODE_FILES:true}
+    max-chars: ${ZWIKI_RAG_MAX_CHARS:12000}
+
+  mail:
+    enabled: ${MAIL_ENABLED:false}
+    brand-name: ${ZWIKI_MAIL_BRAND_NAME:ZwikiAI}
+    logo-url: ${ZWIKI_MAIL_LOGO_URL:}
+    primary-color: ${ZWIKI_MAIL_PRIMARY_COLOR:#1677ff}
+    home-url: ${ZWIKI_MAIL_HOME_URL:http://localhost:3000}
+    queue-timeout-minutes: ${ZWIKI_MAIL_QUEUE_TIMEOUT_MINUTES:15}
+    queue-reminder-cooldown-minutes: ${ZWIKI_MAIL_QUEUE_REMINDER_COOLDOWN_MINUTES:60}
+
+minio:
+  url: ${MINIO_URL:http://127.0.0.1:9000}
+  accessKey: ${MINIO_ACCESS_KEY:}
+  secretKey: ${MINIO_SECRET_KEY:}
+  bucketName: ${MINIO_BUCKET_NAME:zwiki}
+
+#---------------------------------邮件通知配置----------------------------------#
+spring.mail:
+  host: smtp.qq.com
+  port: 465
+  username: ${MAIL_USERNAME:}
+  password: ${MAIL_PASSWORD:}
+  properties:
+    mail:
+      smtp:
+        auth: true
+        ssl:
+          enable: true
+        starttls:
+          enable: false
+      transport:
+        protocol: smtp
+  default-encoding: UTF-8
+
+# Sa-Token配置
+sa-token:
+  token-name: satoken
+  timeout: 86400
+  is-concurrent: true
+  is-share: true
+  token-style: uuid
+  is-log: false
+
+

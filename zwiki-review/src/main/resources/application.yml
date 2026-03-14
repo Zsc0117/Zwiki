@@ -1,0 +1,118 @@
+server:
+  port: 8990
+
+spring:
+  application:
+    name: zwiki-review
+  profiles:
+    active: dev
+  config:
+    import:
+      - optional:nacos:zwiki-review-service-dev.yaml?refresh=true
+  cloud:
+    discovery:
+      enabled: ${NACOS_ENABLED:true}
+    service-registry:
+      auto-registration:
+        enabled: ${NACOS_ENABLED:true}
+    nacos:
+      config:
+        enabled: ${NACOS_ENABLED:true}
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+        username: ${NACOS_USERNAME:}
+        password: ${NACOS_PASSWORD:}
+      discovery:
+        enabled: ${NACOS_ENABLED:true}
+        register-enabled: ${NACOS_ENABLED:true}
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        username: ${NACOS_USERNAME:}
+        password: ${NACOS_PASSWORD:}
+
+  #---------------------------------本地Fallback配置(Nacos不可用时生效)----------------------------------#
+  datasource:
+    url: jdbc:mysql://localhost:3306/zwiki?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+
+  #---------------------------------Redis配置----------------------------------#
+  data:
+    redis:
+      host: ${ZWIKI_REDIS_HOST:127.0.0.1}
+      port: 6379
+      database: 6
+      password: ${ZWIKI_REDIS_PASSWORD:}
+      timeout: 10s
+      connect-timeout: 5s
+
+  ai:
+    openai:
+      api-key: ${DASHSCOPE_API_KEY:}
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      chat:
+        options:
+          model: kimi-k2-thinking
+          stream-usage: true
+
+#---------------------------------LLM负载均衡配置 + Token加密配置----------------------------------#
+zwiki:
+  llm:
+    balancer:
+      enabled: true
+      strategy: round_robin
+      max-attempts-per-request: 3
+      unhealthy-cooldown-seconds: 300
+      models:
+        - name: kimi-k2-thinking
+          display-name: Kimi-K2-Thinking
+          enabled: true
+          weight: 1
+        - name: deepseek-v3.2
+          display-name: DeepSeek-V3.2
+          enabled: true
+          weight: 1
+        - name: qwen3-max-preview
+          display-name: Qwen3-Max-Preview
+          enabled: true
+          weight: 1
+  auth:
+    token-crypto-key: ${ZWIKI_TOKEN_CRYPTO_KEY:}
+
+#---------------------------------GitHub配置----------------------------------#
+app:
+  github:
+    token: ${GITHUB_TOKEN:}
+    webhook:
+      secret: ${GITHUB_WEBHOOK_SECRET:}
+  knowledge:
+    base-path: ${KNOWLEDGE_BASE_PATH:./knowledge-base}
+    index-name: ${BAILIAN_INDEX_NAME:code-review-knowledge}
+    style-guide:
+      documents-path: ${app.knowledge.base-path}/style-guides
+    project:
+      cache-path: ${app.knowledge.base-path}/projects
+
+#---------------------------------Memory服务配置----------------------------------#
+memory:
+  service:
+    url: ${MEMORY_SERVICE_URL:http://localhost:8993}
+
+#---------------------------------Feign配置----------------------------------#
+feign:
+  client:
+    config:
+      memory-service:
+        connectTimeout: 5000
+        readTimeout: 30000
+        loggerLevel: full
+  hystrix:
+    enabled: false
+  circuitbreaker:
+    enabled: false
+
+

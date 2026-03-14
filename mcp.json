@@ -1,0 +1,62 @@
+{
+  "mcpServers" : {
+    "WebSearch" : {
+      "type" : "sse",
+      "description" : "基于通义实验室 Text-Embedding，GTE-reRank，Query 改写，搜索判定等多种检索模型及语义理解，串接专业搜索工程框架及各类型实时信息检索工具，提供实时互联网全栈信息检索，提升 LLM 回答准确性及时效性。",
+      "isActive" : true,
+      "name" : "阿里云百炼_联网搜索",
+      "baseUrl" : "https://dashscope.aliyuncs.com/api/v1/mcps/WebSearch/sse",
+      "headers" : {
+        "Authorization" : "Bearer your_dashscope_api_key"
+      }
+    },
+    "WebParser" : {
+      "type" : "sse",
+      "description" : "网页解析（WebParser）MCP 服务，一个专用于网页内容解析的工具包。",
+      "isActive" : true,
+      "name" : "阿里云百炼_网页解析",
+      "baseUrl" : "https://dashscope.aliyuncs.com/api/v1/mcps/WebParser/sse",
+      "headers" : {
+        "Authorization" : "Bearer your_dashscope_api_key"
+      }
+    },
+    "market-cmapi033617" : {
+      "type" : "streamableHttp",
+      "description" : "天气预报查询服务，可查询当前、未来及历史天气信息。",
+      "isActive" : true,
+      "name" : "阿里云百炼_天气预报查询",
+      "baseUrl" : "https://dashscope.aliyuncs.com/api/v1/mcps/market-cmapi033617/mcp",
+      "headers" : {
+        "Authorization" : "Bearer your_dashscope_api_key"
+      }
+    },
+    "Wan25Media" : {
+      "type" : "sse",
+      "description" : "阿里云百炼官方图像/视频生成 MCP 服务。",
+      "isActive" : true,
+      "name" : "阿里云百炼_万相2.5-图像视频生成",
+      "baseUrl" : "https://dashscope.aliyuncs.com/api/v1/mcps/Wan25Media/sse",
+      "headers" : {
+        "Authorization" : "Bearer your_dashscope_api_key"
+      }
+    },
+    "drawio" : {
+      "type" : "stdio",
+      "description" : "Draw.io MCP Server - 支持通过 XML、CSV、Mermaid 格式创建和打开 draw.io 图表。",
+      "isActive" : true,
+      "name" : "Draw.io 绘图",
+      "command" : "npx",
+      "args" : [ "@drawio/mcp" ]
+    },
+    "zwiki" : {
+      "type" : "sse",
+      "description" : "ZwikiAI MCP Server — 提供仓库阅读、Wiki文档检索、代码浏览、项目报告等核心能力。",
+      "isActive" : true,
+      "name" : "ZwikiAI 本地MCP",
+      "baseUrl" : "http://localhost:9090/sse",
+      "headers" : {
+        "Authorization" : "Bearer your_zwiki_mcp_api_key"
+      }
+    }
+  }
+}
