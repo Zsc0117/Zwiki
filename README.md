@@ -58,7 +58,6 @@
 </p>
 </details>
 
-> 💡 README 中使用的界面截图统一放在 `docs/assets/` 目录，建议使用语义化文件名，如 `homepage.png`、`repo-detail.png`、`chat-widget.png`。
 
 ## 📖 项目概述
 

@@ -43,12 +43,12 @@
   <rect x="60" y="148" width="560" height="52" rx="10" fill="url(#gOrange)" stroke="#ffb74d" stroke-width="1.2" filter="url(#shadow)"/>
   <text x="80" y="168" font-size="11" fill="#e65100" font-weight="bold">API GATEWAY</text>
   <text x="340" y="172" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">zwiki-gateway</text>
-  <text x="340" y="190" text-anchor="middle" font-size="11" fill="#bf360c">Spring Cloud Gateway &middot; CORS &middot; Route &middot; :8992</text>
+  <text x="340" y="190" text-anchor="middle" font-size="11" fill="#bf360c">Spring Cloud Gateway &#183; CORS &#183; Route &#183; :8992</text>
 
   <!-- MCP Server (separate, not behind gateway) -->
   <rect x="700" y="148" width="220" height="52" rx="10" fill="url(#gTeal)" stroke="#4dd0e1" stroke-width="1.2" filter="url(#shadow)"/>
   <text x="810" y="172" text-anchor="middle" font-size="14" font-weight="bold" fill="#00695c">zwiki-mcp-server</text>
-  <text x="810" y="190" text-anchor="middle" font-size="11" fill="#00796b">MCP Protocol (SSE) &middot; :9090</text>
+  <text x="810" y="190" text-anchor="middle" font-size="11" fill="#00796b">MCP Protocol (SSE) &#183; :9090</text>
   <line x1="300" y1="98" x2="700" y2="170" stroke="#00897b" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
 
   <!-- Gateway -> Services -->
@@ -71,7 +71,7 @@
   <text x="56" y="376" font-size="10.5" fill="#444">Task / Repo / Notification Mgmt</text>
   <text x="56" y="392" font-size="10.5" fill="#444">Thesis / Diagram / Code Browser</text>
   <text x="56" y="408" font-size="10.5" fill="#444">MCP Client (external tools)</text>
-  <text x="56" y="422" font-size="10.5" fill="#888">23 Controllers &middot; Spring Security</text>
+  <text x="56" y="422" font-size="10.5" fill="#888">23 Controllers &#183; Spring Security</text>
 
   <!-- zwiki-review -->
   <rect x="340" y="268" width="280" height="100" rx="8" fill="#fff" stroke="#66bb6a" stroke-width="1.2"/>
